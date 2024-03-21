@@ -11,8 +11,9 @@ import * as ProdutoController from '../controllers/ProdutoController'
 const router = Router();
 
 //CLIENTES
-router.get('/clientes', ClienteController.listarClientes);
+//router.get('/clientes', ClienteController.listarClientes);
 router.get('/clientes/:id', ClienteController.getClienteById);
+/*
 router.post('/incluirCliente', ClienteController.incluirCliente);
 router.put('/atualizarCliente/:id', ClienteController.atualizarCliente);
 router.delete('/excluirCliente/:id', ClienteController.excluirCliente);
@@ -38,6 +39,7 @@ router.get('/itensDoPedido/:id', ItemDoPedidoController.getItemDoPedidoById);
 router.post('/incluirItemDoPedido', ItemDoPedidoController.incluirItemDoPedido);
 router.put('/atualizarItemDoPedido/:id', ItemDoPedidoController.atualizarItemDoPedido);
 router.delete('/excluirItemDoPedido/:id', ItemDoPedidoController.excluirItemDoPedido);
+*/
 
 
 
