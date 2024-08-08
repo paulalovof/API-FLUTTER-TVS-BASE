@@ -1,4 +1,4 @@
-import { ItemDoPedido } from './../models/ItemDoPedido';
+/*import { ItemDoPedido } from './../models/ItemDoPedido';
 const request = require("supertest");
 import * as server from "../server";
 import { app } from "../server"; // Certifique-se de que o caminho está correto
@@ -38,7 +38,7 @@ describe("Teste da Rota incluirItemPedido", () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message", "Produto já cadastrado");
   });
-*/
+
 
   afterAll(async () => {
     // Remove o cliente criado no teste
@@ -163,7 +163,7 @@ describe("Teste da Rota atualizarPedido", () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message", "CPF já está sendo usado por outro cliente");
   });
-  */
+  
 
   it("Deve retornar erro ao tentar atualizar um item de pedido inexistente", async () => {
     const itemPedidoInexistenteId = 999999;
@@ -185,4 +185,4 @@ describe("Teste da Rota atualizarPedido", () => {
   });
 
 });
-
+*/

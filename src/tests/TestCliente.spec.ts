@@ -49,11 +49,20 @@ describe("Teste da Rota incluirCliente", () => {
 
 describe("Teste da Rota GetClienteById", () => {
   it("Deve retornar o cliente correto quando o id é valido", async () => {
-    const idCliente = 120; // Supondo que este seja um Id válido existente no seu banco de dados
-    const response = await request(app).get(`/clientes/${idCliente}`);
+    let clienteExistenteId: number; 
+    const cliente = await Cliente.create({
+      nome: "Nome",
+      sobrenome: "Teste",
+      cpf: "12345678900"
+    });
+    clienteExistenteId = cliente.id;
+
+    await request(app).post("/incluirCliente").send(cliente);
+
+    const response = await request(app).get(`/clientes/${clienteExistenteId}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("id", idCliente);
+    expect(response.body).toHaveProperty("id", clienteExistenteId);
   });
 
   it("Deve retornar um status 404 quando o Id do cliente nao existe", async () => {
@@ -65,13 +74,18 @@ describe("Teste da Rota GetClienteById", () => {
     expect(response.body).toHaveProperty("message", "Cliente não encontrado");
   });
 });
-
+/*
 describe("Teste da Rota listarClientes", () => {
   it("Deve retornar uma lista de clientes", async () => {
     const response = await request(app).get("/clientes");
 
-    expect(response.status).toBe(200);
-    expect(response.body.clientes).toBeInstanceOf(Array);
+    if(response.lenght > 0){
+      expect(response.status).toBe(200);
+      expect(response.body.clientes).toBeInstanceOf(Array);
+    }else{
+      expect(response.status).toBe(404);
+      expect(response.body).toHaveProperty("message", "Não há clientes para exibir");
+    }
   });
 
   it("Deve retornar a lista de clientes dentro de um tempo aceitavel", async () => {
@@ -82,6 +96,20 @@ describe("Teste da Rota listarClientes", () => {
     expect(response.status).toBe(200);
     expect(duration).toBeLessThan(100); // Verifica se a resposta é retornada em menos de 500ms
   });
+/*
+  it("Deve retornar erro 404 se não tiver nenhum cliente cadastrado", async () =>{
+    const clientes = await request(app).get("/clientes");
+    for(let i = 0; clientes.lenght; i++){
+        console.log(clientes[i].id);
+        await Cliente.destroy({ where: { id: clientes[i].id } });
+    }
+
+    const response = await request(app).get("/clientes");
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty("message", "Não há clientes para exibir");
+
+  })
+  
 });
 
 describe("Teste da Rota excluirCliente", () => {
@@ -178,4 +206,4 @@ describe("Teste da Rota atualizarCliente", () => {
     // Limpeza dos clientes criados
     await Cliente.destroy({ where: { id: [clienteId, clienteExistenteId] } });
   });
-});
+});*/

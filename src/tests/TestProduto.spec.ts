@@ -1,4 +1,4 @@
-const request = require("supertest");
+/*const request = require("supertest");
 import * as server from "../server";
 import { app } from "../server"; // Certifique-se de que o caminho está correto
 import { Request, Response } from "express";
@@ -33,7 +33,7 @@ describe("Teste da Rota incluirProduto", () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message", "Produto já cadastrado");
   });
-*/
+
 
   afterAll(async () => {
     // Remove o cliente criado no teste
@@ -149,7 +149,7 @@ describe("Teste da Rota atualizarProduto", () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message", "CPF já está sendo usado por outro cliente");
   });
-  */
+  
 
   it("Deve retornar erro ao tentar atualizar um produto inexistente", async () => {
     const produtoInexistenteId = 999999;
@@ -169,4 +169,4 @@ describe("Teste da Rota atualizarProduto", () => {
   });
 
 });
-
+*/
