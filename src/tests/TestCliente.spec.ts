@@ -48,8 +48,8 @@ describe("Teste da Rota incluirCliente", () => {
 });
 
 describe("Teste da Rota GetClienteById", () => {
+  let clienteExistenteId: number; 
   it("Deve retornar o cliente correto quando o id é valido", async () => {
-    let clienteExistenteId: number; 
     const cliente = await Cliente.create({
       nome: "Nome",
       sobrenome: "Teste",
@@ -57,14 +57,14 @@ describe("Teste da Rota GetClienteById", () => {
     });
     clienteExistenteId = cliente.id;
 
-    await request(app).post("/incluirCliente").send(cliente);
+    //await request(app).post("/incluirCliente").send(cliente);
 
     const response = await request(app).get(`/clientes/${clienteExistenteId}`);
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id", clienteExistenteId);
   });
-
+  
   it("Deve retornar um status 404 quando o Id do cliente nao existe", async () => {
     const idCliente = 999;
 
@@ -73,8 +73,16 @@ describe("Teste da Rota GetClienteById", () => {
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message", "Cliente não encontrado");
   });
+
+  afterAll(async () => {
+    // Remove o cliente criado no teste
+    if (clienteExistenteId) {
+      await Cliente.destroy({ where: { id: clienteExistenteId } });
+    }
+  });
+  
 });
-/*
+
 describe("Teste da Rota listarClientes", () => {
   it("Deve retornar uma lista de clientes", async () => {
     const response = await request(app).get("/clientes");
@@ -88,6 +96,7 @@ describe("Teste da Rota listarClientes", () => {
     }
   });
 
+  /*
   it("Deve retornar a lista de clientes dentro de um tempo aceitavel", async () => {
     const start = Date.now();
     const response = await request(app).get("/clientes");
@@ -96,7 +105,8 @@ describe("Teste da Rota listarClientes", () => {
     expect(response.status).toBe(200);
     expect(duration).toBeLessThan(100); // Verifica se a resposta é retornada em menos de 500ms
   });
-/*
+  */
+
   it("Deve retornar erro 404 se não tiver nenhum cliente cadastrado", async () =>{
     const clientes = await request(app).get("/clientes");
     for(let i = 0; clientes.lenght; i++){
@@ -206,4 +216,4 @@ describe("Teste da Rota atualizarCliente", () => {
     // Limpeza dos clientes criados
     await Cliente.destroy({ where: { id: [clienteId, clienteExistenteId] } });
   });
-});*/
+});

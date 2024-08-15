@@ -1,4 +1,4 @@
-/*const request = require("supertest");
+const request = require("supertest");
 import * as server from "../server";
 import { app } from "../server"; // Certifique-se de que o caminho está correto
 import { Request, Response } from "express";
@@ -21,13 +21,12 @@ describe("Teste da Rota incluirProduto", () => {
     produtoId = response.body.id; // Armazena o ID do cliente recém-criado para limpeza posterior
   });
 
-  /*
+
   it("Deve retornar erro ao tentar incluir um produto com a descricao ja existente", async () => {
     const produtoExistente = {
       descricao: "Produto teste"
     };
 
-    // Tenta incluir um cliente com CPF já existente
     const response = await request(app).post("/incluirProduto").send(produtoExistente);
 
     expect(response.status).toBe(400);
@@ -45,12 +44,19 @@ describe("Teste da Rota incluirProduto", () => {
 
 
 describe("Teste da Rota GetProdutoById", () => {
+  let produtoExistenteId: number;
+
   it("Deve retornar o produto correto quando o id é valido", async () => {
-    const idProduto = 1; // Supondo que este seja um Id válido existente no seu banco de dados
-    const response = await request(app).get(`/produtos/${idProduto}`);
+    const produto = await Produto.create({
+      descricao: "Produto Novo Teste"
+    });
+    produtoExistenteId = produto.id;
+
+
+    const response = await request(app).get(`/produtos/${produtoExistenteId}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("id", idProduto);
+    expect(response.body).toHaveProperty("id", produtoExistenteId);
   });
 
   it("Deve retornar um status 404 quando o Id do produto nao existe", async () => {
@@ -60,6 +66,13 @@ describe("Teste da Rota GetProdutoById", () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("message", "Produto não encontrado");
+  });
+
+  afterAll(async () => {
+    // Remove o cliente criado no teste
+    if (produtoExistenteId) {
+      await Produto.destroy({ where: { id: produtoExistenteId } });
+    }
   });
 });
 
@@ -71,7 +84,7 @@ describe("Teste da Rota listarProdutos", () => {
     expect(response.status).toBe(200);
     expect(response.body.produtos).toBeInstanceOf(Array);
   });
-
+  /*
   it("Deve retornar a lista de produtos dentro de um tempo aceitavel", async () => {
     const start = Date.now();
     const response = await request(app).get("/produtos");
@@ -80,6 +93,7 @@ describe("Teste da Rota listarProdutos", () => {
     expect(response.status).toBe(200);
     expect(duration).toBeLessThan(100); // Verifica se a resposta é retornada em menos de 500ms
   });
+  */
 });
 
 describe("Teste da Rota excluirProduto", () => {
@@ -136,9 +150,10 @@ describe("Teste da Rota atualizarProduto", () => {
     expect(response.status).toBe(200);
     expect(response.body.descricao).toBe(produtoAtualizado.descricao);
   });
-/*
+
+  /*
   it("Deve retornar erro ao tentar atualizar cliente com CPF já existente", async () => {
-    const clienteAtualizado = {
+    const produtoAtualizado = {
       nome: "Novo Nome",
       sobrenome: "Novo Sobrenome",
       cpf: "12345678900" // CPF já usado por clienteExistenteId
@@ -148,7 +163,7 @@ describe("Teste da Rota atualizarProduto", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("message", "CPF já está sendo usado por outro cliente");
-  });
+  });*/
   
 
   it("Deve retornar erro ao tentar atualizar um produto inexistente", async () => {
@@ -169,4 +184,4 @@ describe("Teste da Rota atualizarProduto", () => {
   });
 
 });
-*/
+

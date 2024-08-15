@@ -16,8 +16,14 @@ export const listarProdutos = async (req: Request, res: Response) => {
 export const incluirProduto = async (req: Request, res: Response) => {
   try {
     const { descricao } = req.body;
-    const novoProduto = await Produto.create({ descricao });
 
+    const produtoExistente = await Produto.findOne({ where: { descricao } });
+
+    if (produtoExistente) {
+      return res.status(400).json({ message: "Produto já cadastrado" });
+    }
+    
+    const novoProduto = await Produto.create({ descricao });
     res.status(201).json(novoProduto);
   } catch (error) {
     console.error("Erro ao incluir produto:", error);
