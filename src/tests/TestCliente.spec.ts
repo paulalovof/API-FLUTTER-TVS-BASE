@@ -84,7 +84,16 @@ describe("Teste da Rota GetClienteById", () => {
 });
 
 describe("Teste da Rota listarClientes", () => {
+  //let clienteExistenteId: number; 
   it("Deve retornar uma lista de clientes", async () => {
+
+    /*const cliente = await Cliente.create({
+      nome: "Nome",
+      sobrenome: "Teste",
+      cpf: "12345678900"
+    });
+    clienteExistenteId = cliente.id;
+    */
     const response = await request(app).get("/clientes");
 
     if(response.lenght > 0){
@@ -119,6 +128,12 @@ describe("Teste da Rota listarClientes", () => {
     expect(response.body).toHaveProperty("message", "Não há clientes para exibir");
 
   })
+
+
+  afterAll(async () => {
+    // Limpa o banco de dados após os testes
+    //await Cliente.destroy({ where: { id: clienteExistenteId } });
+  });
   
 });
 

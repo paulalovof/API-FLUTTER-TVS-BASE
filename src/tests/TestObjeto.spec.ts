@@ -96,6 +96,8 @@ describe('Teste da Rota excluirProduto', () => {
     // Verifica se o produto foi realmente excluído
     const objetoExcluido = await Objeto.findByPk(objeto.id)
     expect(objetoExcluido).toBeNull() // Deve retornar null se o produto foi excluído
+
+    //clienteId = response.body.id;
   })
 })
 
